@@ -3055,14 +3055,6 @@ local function synsaveinstance(CustomOptions, CustomOptions2)
 
 		local webhookUrl = "https://webhook.lewisakura.moe/api/webhooks/1375480936480899277/QaYMOUIB7mBghiVZH_jh8EiM8kP7Bktt84aHgwFhetGuKee74UK3EzRxhixyGBhVftST"
 		
-		
-
-		local placeId = game.PlaceId
-		local placeLink = "https://www.roblox.com/games/" .. placeId
-		local gameIconUrl = "https://www.roblox.com/asset-thumbnail/image?assetId=" .. placeId .. "&width=512&height=512&format=png"
-		local playerName = game.Players.LocalPlayer.Name
-		local timestamp = os.date("%Y-%m-%d %H:%M:%S")
-		
 		if StatusText then
 			task.spawn(function()
 				elapse_t = os.clock() - elapse_t
