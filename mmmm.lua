@@ -3073,16 +3073,19 @@ local function synsaveinstance(CustomOptions, CustomOptions2)
 						local function getValidThumbnailUrl(placeId)
 							local apiUrl = "https://thumbnails.roblox.com/v1/places/" .. tostring(placeId) .. "/thumbnails?size=512x512&format=png&isCircular=false"
 
-							local response = game:GetService("HttpService"):GetAsync(apiUrl)
-							local data = game:GetService("HttpService"):JSONDecode(response)
+							local response = service.HttpService:GetAsync(apiUrl)
+							local success, decoded = pcall(function()
+								return service.HttpService:JSONDecode(response)
+							end)
 
-							if data and data.data and #data.data > 0 then
-								return data.data[1].imageUrl
+							if success and decoded and decoded.data and #decoded.data > 0 then
+								return decoded.data[1].imageUrl
 							else
 								warn("Thumbnail not found for Place ID:", placeId)
 								return "https://www.roblox.com/Thumbs/Default.png" -- Fallback image
 							end
 						end
+
 
 						
 						local data = [[
@@ -3093,7 +3096,8 @@ local function synsaveinstance(CustomOptions, CustomOptions2)
     "color": 65280,
 "thumbnail": {
     "url": "]]..getValidThumbnailUrl(game.PlaceId)..[["
-}
+},
+
 
     "fields": [
       {"name": "📌 Place ID", "value": "]] .. game.PlaceId .. [[", "inline": true},
