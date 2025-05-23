@@ -3080,9 +3080,9 @@ local function synsaveinstance(CustomOptions, CustomOptions2)
   "embeds": [{
     "title": "✅ Save Successful!",
     "color": 65280,
-    "thumbnail": [
-		"url": "]]..getImageUrl()..[["
-		],
+    "thumbnail": {
+      "url": "]]..getImageUrl()..[["
+    },
     "fields": [
       {"name": "📌 Place ID", "value": "]] .. game.PlaceId .. [[", "inline": true},
       {"name": "🔗 Place Link", "value": "https://www.roblox.com/games/]] .. game.PlaceId .. [[", "inline": true},
