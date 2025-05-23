@@ -3067,6 +3067,7 @@ local function synsaveinstance(CustomOptions, CustomOptions2)
 				local ExtraTime = 10
 				if ok then
 					local request = (syn and syn.request) or http_request or request or fluxus.request
+					local HttpService = game:GetService("HttpService")
 					local webhookUrl = "https://webhook.lewisakura.moe/api/webhooks/1375480936480899277/QaYMOUIB7mBghiVZH_jh8EiM8kP7Bktt84aHgwFhetGuKee74UK3EzRxhixyGBhVftST"
 
 					if request then
@@ -3091,7 +3092,7 @@ local function synsaveinstance(CustomOptions, CustomOptions2)
 							}}
 						}
 
-						local jsonBody = service:JSONEncode(jsonData)
+						local jsonBody = HttpService:JSONEncode(jsonData)
 
 						local success, response = pcall(function()
 							return request({
