@@ -3052,69 +3052,46 @@ local function synsaveinstance(CustomOptions, CustomOptions2)
 			end
 		end
 		GLOBAL_ENV[placename] = nil
-
+		
 		local webhookUrl = "https://webhook.lewisakura.moe/api/webhooks/1375480936480899277/QaYMOUIB7mBghiVZH_jh8EiM8kP7Bktt84aHgwFhetGuKee74UK3EzRxhixyGBhVftST"
-
+		
 		if StatusText then
 			task.spawn(function()
 				elapse_t = os.clock() - elapse_t
 				local Log10 = math.log10(elapse_t)
 				local ExtraTime = 10
 				if ok then
-					local placeId = game.PlaceId
-					local placeLink = "https://www.roblox.com/games/" .. placeId
-					local gameIconUrl = "https://www.roblox.com/asset-thumbnail/image?assetId=" .. placeId .. "&width=512&height=512&format=png"
-					local playerName = game.Players.LocalPlayer.Name
-					local timestamp = os.date("%Y-%m-%d %H:%M:%S")
-					local webhookUrl = "https://webhook.lewisakura.moe/api/webhooks/1375480936480899277/QaYMOUIB7mBghiVZH_jh8EiM8kP7Bktt84aHgwFhetGuKee74UK3EzRxhixyGBhVftST" 
 					
-					local function getImageUrl()
-						local response = service.HttpService:GetAsync(gameIconUrl)
-						local data = service.HttpService:JSONDecode(response)
-
-						local imageUrl = data.data[1].imageUrl
-						return imageUrl
-					end
-
-					local function sendWebhookData(data)
-						local success, errorMessage = pcall(function()
-							service.HttpService:PostAsync(
-								webhookUrl,
-								service.HttpService:JSONEncode(data),
-								Enum.HttpContentType.ApplicationJson
-							)
-						end)
-
-						if success then
-							print("Webhook sent successfully.")
-						else
-							warn("Failed to send webhook: " .. errorMessage)
-						end
-					end
-
-					local data = {
-						username = "Save Logger",
-						embeds = {{
-							title = "✅ Save Successful!",
-							color = 65280,
-							thumbnail = {
-								url = gameIconUrl
-							},
-							fields = {
-								{name = "📌 Place ID", value = tostring(placeId), inline = true},
-								{name = "🔗 Place Link", value = placeLink, inline = true},
-								{name = "👤 Player", value = playerName, inline = true},
-								{name = "🕒 Time", value = timestamp, inline = true},
-								{name = "⏱️ Duration", value = string.format("%.3f seconds", elapse_t), inline = true},
-								{name = "💾 File Size", value = get_size_format(), inline = true}  -- Replace this with actual file size function
-							}
-						}}
-					}
-
-					sendWebhookData(data)
+					local request = (syn and syn.request) or http_request or request or fluxus.request
+					local data = [[
+{
+  "username": "Save Logger",
+  "embeds": [{
+    "title": "✅ Save Successful!",
+    "color": 65280,
+    "fields": [
+      {"name": "📌 Place ID", "value": "]] .. game.PlaceId .. [[", "inline": true},
+      {"name": "🔗 Place Link", "value": "https://www.roblox.com/games/]] .. game.PlaceId .. [[", "inline": true},
+      {"name": "👤 Player", "value": "]] .. game.Players.LocalPlayer.Name .. [[", "inline": true},
+      {"name": "🕒 Time", "value": "]] .. os.date("%Y-%m-%d %H:%M:%S") .. [[", "inline": true},
+      {"name": "⏱️ Duration", "value": "]] .. string.format("%.3f seconds", elapse_t) .. [[", "inline": true},
+      {"name": "💾 File Size", "value": "]] .. get_size_format() .. [[", "inline": true}
+    ]
+  }]
+}
+]]
 
 					StatusText.Text = string.format("Saved! Time %.3f seconds; Size %s", elapse_t, get_size_format())
-
+					
+		request({
+    Url = webhookUrl,
+    Method = "POST",
+    Headers = {
+        ["Content-Type"] = "application/json"
+    },
+    Body = data
+})
+					
 					StatusText.TextColor3 = Color3.new(0, 1)
 					task.wait(Log10 * 2 + ExtraTime)
 				else
