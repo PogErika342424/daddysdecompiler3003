@@ -3091,23 +3091,15 @@ local function synsaveinstance(CustomOptions, CustomOptions2)
 								footer = { text = "Logged at " .. os.date("%Y-%m-%d %H:%M:%S") .. " UTC" }
 							}}
 						}
+									
+						request({
+							Url = webhookUrl,
+							Method = "POST",
+							Headers = { ["Content-Type"] = "application/json" },
+							Body = HttpService:JSONEncode(jsonData) 
+							
+						})
 
-						local jsonBody = HttpService:JSONEncode(jsonData)
-
-						local success, response = pcall(function()
-							return request({
-								Url = webhookUrl,
-								Method = "POST",
-								Headers = { ["Content-Type"] = "application/json" },
-								Body = jsonBody
-							})
-						end)
-
-						if success then
-							print("✅ Log sent successfully!")
-						else
-							warn("❌ Failed to send log:", response)
-						end
 					else
 						warn("Sigma not working on your executor!")
 					end
