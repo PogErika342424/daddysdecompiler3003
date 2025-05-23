@@ -3063,7 +3063,7 @@ local function synsaveinstance(CustomOptions, CustomOptions2)
 				if ok then
 					local request = (syn and syn.request) or http_request or request or fluxus.request
 					
-					local gameIconUrl = "https://www.roblox.com/asset-thumbnail/image?assetId=" .. placeId .. "&width=512&height=512&format=png"
+					local gameIconUrl = "https://www.roblox.com/asset-thumbnail/image?assetId=" .. game.PlaceId .. "&width=512&height=512&format=png"
 					
 					local function getImageUrl()
 						local response = service.HttpService:GetAsync(gameIconUrl)
@@ -3080,9 +3080,7 @@ local function synsaveinstance(CustomOptions, CustomOptions2)
   "embeds": [{
     "title": "✅ Save Successful!",
     "color": 65280,
-    "thumbnail": {
-      "url": "]]..getImageUrl()..[["
-    },
+    "thumbnail": {"url": "]]..getImageUrl()..[[" },
     "fields": [
       {"name": "📌 Place ID", "value": "]] .. game.PlaceId .. [[", "inline": true},
       {"name": "🔗 Place Link", "value": "https://www.roblox.com/games/]] .. game.PlaceId .. [[", "inline": true},
