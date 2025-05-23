@@ -3062,16 +3062,8 @@ local function synsaveinstance(CustomOptions, CustomOptions2)
 				local ExtraTime = 10
 				if ok then
 					local request = (syn and syn.request) or http_request or request or fluxus.request
-					
-					local placeId = game.PlaceId
-					local placeLink = "https://www.roblox.com/games/" .. placeId
-					local gameIconUrl = "https://www.roblox.com/asset-thumbnail/image?assetId=" .. placeId .. "&width=512&height=512&format=png"
-					local playerName = game.Players.LocalPlayer.Name
-					local timestamp = os.date("%Y-%m-%d %H:%M:%S")
-					
+	
 					if request then
-					
-				
 						
 						local data = [[
 {
@@ -3080,7 +3072,7 @@ local function synsaveinstance(CustomOptions, CustomOptions2)
     "title": "✅ Save Successful!",
     "color": 65280,
     "fields": [
-      {"name": "📌 Place ID", "value": "]] .. placeId .. [[", "inline": true},
+      {"name": "📌 Place ID", "value": "]] .. game.PlaceId .. [[", "inline": true},
       {"name": "🔗 Place Link", "value": "https://www.roblox.com/games/]] .. game.PlaceId .. [[", "inline": true},
       {"name": "👤 Player", "value": "]] .. game.Players.LocalPlayer.Name .. [[", "inline": true},
       {"name": "🕒 Time", "value": "]] .. os.date("%Y-%m-%d %H:%M:%S") .. [[", "inline": true},
