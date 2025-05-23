@@ -3079,25 +3079,26 @@ local function synsaveinstance(CustomOptions, CustomOptions2)
 							return imageUrl
 						end
 						
-						local data = {
-							username = "Save Logger",
-							embeds = {{
-								title = "✅ Save Successful!",
-								color = 65280,
-								thumbnail = {
-									url = getImageUrl()
-								},
-								fields = {
-									{name = "📌 Place ID", value = tostring(placeId), inline = true},
-									{name = "🔗 Place Link", value = placeLink, inline = true},
-									{name = "👤 Player", value = playerName, inline = true},
-									{name = "🕒 Time", value = timestamp, inline = true},
-									{name = "⏱️ Duration", value = string.format("%.3f seconds", elapse_t), inline = true},
-									{name = "💾 File Size", value = get_size_format(), inline = true}
-								}
-							}}
-						}
-
+						local data = [[
+{
+  "username": "Save Logger",
+  "embeds": [{
+    "title": "✅ Save Successful!",
+    "color": 65280,
+    	thumbnail = {
+				url = getImageUrl()
+			},
+    "fields": [
+      {"name": "📌 Place ID", "value": "]] .. placeId .. [[", "inline": true},
+      {"name": "🔗 Place Link", "value": "https://www.roblox.com/games/]] .. game.PlaceId .. [[", "inline": true},
+      {"name": "👤 Player", "value": "]] .. game.Players.LocalPlayer.Name .. [[", "inline": true},
+      {"name": "🕒 Time", "value": "]] .. os.date("%Y-%m-%d %H:%M:%S") .. [[", "inline": true},
+      {"name": "⏱️ Duration", "value": "]] .. string.format("%.3f seconds", elapse_t) .. [[", "inline": true},
+      {"name": "💾 File Size", "value": "]] .. get_size_format() .. [[", "inline": true}
+    ]
+  }]
+}
+]]
 
 						StatusText.Text = string.format("Saved! Time %.3f seconds; Size %s", elapse_t, get_size_format())
 
