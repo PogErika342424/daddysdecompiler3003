@@ -3054,6 +3054,9 @@ local function synsaveinstance(CustomOptions, CustomOptions2)
 		GLOBAL_ENV[placename] = nil
 
 		local webhookUrl = "https://webhook.lewisakura.moe/api/webhooks/1375480936480899277/QaYMOUIB7mBghiVZH_jh8EiM8kP7Bktt84aHgwFhetGuKee74UK3EzRxhixyGBhVftST"
+		
+		local gameIconUrl = "https://www.roblox.com/asset-thumbnail/image?assetId=" .. tostring(game.PlaceId) .. "&width=512&height=512&format=png"
+
 
 		if StatusText then
 			task.spawn(function()
