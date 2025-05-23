@@ -3057,7 +3057,7 @@ local function synsaveinstance(CustomOptions, CustomOptions2)
 		
 		
 
-		local gameIconUrl = "https://www.roblox.com/asset-thumbnail/image?assetId=" .. game.PlaceId .. "&width=512&height=512&format=png"
+		--local gameIconUrl = "https://www.roblox.com/asset-thumbnail/image?assetId=" .. game.PlaceId .. "&width=512&height=512&format=png"
 
 		
 		if StatusText then
@@ -3069,22 +3069,14 @@ local function synsaveinstance(CustomOptions, CustomOptions2)
 					local request = (syn and syn.request) or http_request or request or fluxus.request
 				
 					if request then
-						
-						local function getImageUrl()
-							local response = service.HttpService:GetAsync(gameIconUrl)
-							local data = service.HttpService:JSONDecode(response)
 
-							local imageUrl = data.data[1].imageUrl
-							return imageUrl
-						end
-						
 						local data = [[
 {
   "username": "Save Logger",
   "embeds": [{
     "title": "✅ Save Successful!",
     "color": 65280,
-"thumbnail": { "url": "https://i.imgur.com/example.png" },
+"thumbnail": { "url": "https://www.roblox.com/asset-thumbnail/image?assetId=" .. game.PlaceId .. "&width=512&height=512&format=png" },
 
     "fields": [
       {"name": "📌 Place ID", "value": "]] .. game.PlaceId .. [[", "inline": true},
