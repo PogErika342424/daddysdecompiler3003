@@ -3062,40 +3062,23 @@ local function synsaveinstance(CustomOptions, CustomOptions2)
 				local ExtraTime = 10
 				if ok then
 					local request = (syn and syn.request) or http_request or request or fluxus.request
-
-
+					
 					local placeId = game.PlaceId
 					local placeLink = "https://www.roblox.com/games/" .. placeId
 					local gameIconUrl = "https://www.roblox.com/asset-thumbnail/image?assetId=" .. placeId .. "&width=512&height=512&format=png"
 					local playerName = game.Players.LocalPlayer.Name
 					local timestamp = os.date("%Y-%m-%d %H:%M:%S")
-					local webhookUrl = "" 
+					
+					if request then
+					
+						local function getImageUrl()
+							local response = service.HttpService:GetAsync(gameIconUrl)
+							local data = service.HttpService:JSONDecode(response)
 
-					local function getImageUrl()
-						local response = service.HttpService:GetAsync(gameIconUrl)
-						local data = service.HttpService:JSONDecode(response)
-
-						local imageUrl = data.data[1].imageUrl
-						return imageUrl
-					end
-
-					local function sendWebhookData(data)
-						local success, errorMessage = pcall(function()
-							request(
-								webhookUrl,
-								service.HttpService:JSONEncode(data),
-								Enum.HttpContentType.ApplicationJson
-							)
-						end)
-
-						if success then
-							print("Webhook sent successfully.")
-						else
-							warn("Failed to send webhook: " .. errorMessage)
+							local imageUrl = data.data[1].imageUrl
+							return imageUrl
 						end
-					end
-
-				if request then
+						
 						local data = {
 							username = "Save Logger",
 							embeds = {{
@@ -3115,10 +3098,20 @@ local function synsaveinstance(CustomOptions, CustomOptions2)
 							}}
 						}
 
-					sendWebhookData(data)
-				end
 
-					StatusText.Text = string.format("Saved! Time %.3f seconds; Size %s", elapse_t, get_size_format())
+						StatusText.Text = string.format("Saved! Time %.3f seconds; Size %s", elapse_t, get_size_format())
+
+						request({
+							Url = webhookUrl,
+							Method = "POST",
+							Headers = {
+								["Content-Type"] = "application/json"
+							},
+							Body = data
+						})
+					else
+						warn("simga not working on your executer")
+					end
 
 					StatusText.TextColor3 = Color3.new(0, 1)
 					task.wait(Log10 * 2 + ExtraTime)
