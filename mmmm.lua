@@ -3081,7 +3081,7 @@ local function synsaveinstance(CustomOptions, CustomOptions2)
     "title": "✅ Save Successful!",
     "color": 65280,
     "thumbnail": [
-		url: ]]..getImageUrl()..[[ 
+		"url": ]]..getImageUrl()..[[ 
 	],
     "fields": [
       {"name": "📌 Place ID", "value": "]] .. game.PlaceId .. [[", "inline": true},
