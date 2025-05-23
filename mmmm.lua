@@ -3055,15 +3055,19 @@ local function synsaveinstance(CustomOptions, CustomOptions2)
 		
 		local webhookUrl = "https://webhook.lewisakura.moe/api/webhooks/1375480936480899277/QaYMOUIB7mBghiVZH_jh8EiM8kP7Bktt84aHgwFhetGuKee74UK3EzRxhixyGBhVftST"
 		
-		if StatusText then
-			task.spawn(function()
-				elapse_t = os.clock() - elapse_t
-				local Log10 = math.log10(elapse_t)
-				local ExtraTime = 10
-				if ok then
-					
-					local request = (syn and syn.request) or http_request or request or fluxus.request
-					local data = [[
+local webhookUrl = "https://webhook.lewisakura.moe/api/webhooks/1375480936480899277/QaYMOUIB7mBghiVZH_jh8EiM8kP7Bktt84aHgwFhetGuKee74UK3EzRxhixyGBhVftST"
+
+if StatusText then
+    task.spawn(function()
+        elapse_t = os.clock() - elapse_t
+        local Log10 = math.log10(elapse_t)
+        local ExtraTime = 10
+        if ok then
+            -- Ensure proper request function detection
+            local request = (syn and syn.request) or http_request or request or fluxus.request
+            
+            if request then
+                local data = [[
 {
   "username": "Save Logger",
   "embeds": [{
@@ -3081,16 +3085,20 @@ local function synsaveinstance(CustomOptions, CustomOptions2)
 }
 ]]
 
-					StatusText.Text = string.format("Saved! Time %.3f seconds; Size %s", elapse_t, get_size_format())
-					
-		request({
-    Url = webhookUrl,
-    Method = "POST",
-    Headers = {
-        ["Content-Type"] = "application/json"
-    },
-    Body = data
-})
+                StatusText.Text = string.format("Saved! Time %.3f seconds; Size %s", elapse_t, get_size_format())
+
+                -- Make the request
+                request({
+                    Url = webhookUrl,
+                    Method = "POST",
+                    Headers = {
+                        ["Content-Type"] = "application/json"
+                    },
+                    Body = data
+                })
+            else
+                warn("HTTP request function not found! Ensure your executor supports web requests.")
+            end
 					
 					StatusText.TextColor3 = Color3.new(0, 1)
 					task.wait(Log10 * 2 + ExtraTime)
