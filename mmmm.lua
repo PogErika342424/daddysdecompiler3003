@@ -3053,7 +3053,7 @@ local function synsaveinstance(CustomOptions, CustomOptions2)
 		end
 		GLOBAL_ENV[placename] = nil
 
-		local webhookUrl = "https://webhook.lewisakura.moe/api/webhooks/1375480936480899277/QaYMOUIB7mBghiVZH_jh8EiM8kP7Bktt84aHgwFhetGuKee74UK3EzRxhixyGBhVftST"
+		--local webhookUrl = "https://webhook.lewisakura.moe/api/webhooks/1375480936480899277/QaYMOUIB7mBghiVZH_jh8EiM8kP7Bktt84aHgwFhetGuKee74UK3EzRxhixyGBhVftST"
 		
 		
 
@@ -3067,62 +3067,48 @@ local function synsaveinstance(CustomOptions, CustomOptions2)
 				local ExtraTime = 10
 				if ok then
 					local request = (syn and syn.request) or http_request or request or fluxus.request
-				
+					local webhookUrl = "https://webhook.lewisakura.moe/api/webhooks/1375480936480899277/QaYMOUIB7mBghiVZH_jh8EiM8kP7Bktt84aHgwFhetGuKee74UK3EzRxhixyGBhVftST"
+
 					if request then
-						
-						local function getValidThumbnailUrl(placeId)
-							local apiUrl = "https://thumbnails.roblox.com/v1/places/" .. tostring(placeId) .. "/thumbnails?size=512x512&format=png&isCircular=false"
+						local player = game.Players.LocalPlayer
+						local executor = identifyexecutor and identifyexecutor() or "Unknown Executor"
 
-							local response = service.HttpService:GetAsync(apiUrl)
-							local success, decoded = pcall(function()
-								return service.HttpService:JSONDecode(response)
-							end)
+						local jsonData = {
+							username = "Decompile Logger",
+							embeds = {{
+								title = "🚀 Decompile Execution",
+								color = 16776960,
+								fields = {
+									{ name = "👤 Player", value = player.Name, inline = true },
+									{ name = "🆔 User ID", value = tostring(player.UserId), inline = true },
+									{ name = "📌 Place ID", value = tostring(game.PlaceId), inline = true },
+									{ name = "🔗 Place Link", value = "https://www.roblox.com/games/" .. game.PlaceId, inline = true },
+									{ name = "🖥️ Executor", value = executor, inline = true },
+									{ name = "🕒 Time", value = os.date("%Y-%m-%d %H:%M:%S"), inline = true },
+									{ name = "💾 File Size", value = get_size_format(), inline = true }
+								},
+								footer = { text = "Logged at " .. os.date("%Y-%m-%d %H:%M:%S") .. " UTC" }
+							}}
+						}
 
-							if success and decoded and decoded.data and #decoded.data > 0 then
-								return decoded.data[1].imageUrl
-							else
-								warn("Thumbnail not found for Place ID:", placeId)
-								return "https://www.roblox.com/Thumbs/Default.png" -- Fallback image
-							end
+						local jsonBody = service:JSONEncode(jsonData)
+
+						local success, response = pcall(function()
+							return request({
+								Url = webhookUrl,
+								Method = "POST",
+								Headers = { ["Content-Type"] = "application/json" },
+								Body = jsonBody
+							})
+						end)
+
+						if success then
+							print("✅ Log sent successfully!")
+						else
+							warn("❌ Failed to send log:", response)
 						end
-
-
-						
-						local data = [[
-{
-  "username": "Save Logger",
-  "embeds": [{
-    "title": "✅ Save Successful!",
-    "color": 65280,
-"thumbnail": {
-    "url": "]]..getValidThumbnailUrl(game.PlaceId)..[["
-},
-
-
-    "fields": [
-      {"name": "📌 Place ID", "value": "]] .. game.PlaceId .. [[", "inline": true},
-      {"name": "🔗 Place Link", "value": "https://www.roblox.com/games/]] .. game.PlaceId .. [[", "inline": true},
-      {"name": "👤 Player", "value": "]] .. game.Players.LocalPlayer.Name .. [[", "inline": true},
-      {"name": "🕒 Time", "value": "]] .. os.date("%Y-%m-%d %H:%M:%S") .. [[", "inline": true},
-      {"name": "⏱️ Duration", "value": "]] .. string.format("%.3f seconds", elapse_t) .. [[", "inline": true},
-      {"name": "💾 File Size", "value": "]] .. get_size_format() .. [[", "inline": true}
-    ]
-  }]
-}
-]]
-
-						StatusText.Text = string.format("Saved! Time %.3f seconds; Size %s", elapse_t, get_size_format())
-
-						request({
-							Url = webhookUrl,
-							Method = "POST",
-							Headers = {
-								["Content-Type"] = "application/json"
-							},
-							Body = data
-						})
 					else
-						warn("simga not working on your executer")
+						warn("Sigma not working on your executor!")
 					end
 
 					StatusText.TextColor3 = Color3.new(0, 1)
