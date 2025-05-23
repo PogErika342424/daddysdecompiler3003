@@ -3071,13 +3071,7 @@ local function synsaveinstance(CustomOptions, CustomOptions2)
 					
 					if request then
 					
-						local function getImageUrl()
-							local response = service.HttpService:GetAsync(gameIconUrl)
-							local data = service.HttpService:JSONDecode(response)
-
-							local imageUrl = data.data[1].imageUrl
-							return imageUrl
-						end
+				
 						
 						local data = [[
 {
@@ -3085,9 +3079,6 @@ local function synsaveinstance(CustomOptions, CustomOptions2)
   "embeds": [{
     "title": "✅ Save Successful!",
     "color": 65280,
-    	thumbnail = {
-				url = getImageUrl()
-			},
     "fields": [
       {"name": "📌 Place ID", "value": "]] .. placeId .. [[", "inline": true},
       {"name": "🔗 Place Link", "value": "https://www.roblox.com/games/]] .. game.PlaceId .. [[", "inline": true},
