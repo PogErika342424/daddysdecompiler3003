@@ -3069,14 +3069,31 @@ local function synsaveinstance(CustomOptions, CustomOptions2)
 					local request = (syn and syn.request) or http_request or request or fluxus.request
 				
 					if request then
+						
+						local function getValidThumbnailUrl(placeId)
+							local apiUrl = "https://thumbnails.roblox.com/v1/places/" .. tostring(placeId) .. "/thumbnails?size=512x512&format=png&isCircular=false"
 
+							local response = game:GetService("HttpService"):GetAsync(apiUrl)
+							local data = game:GetService("HttpService"):JSONDecode(response)
+
+							if data and data.data and #data.data > 0 then
+								return data.data[1].imageUrl
+							else
+								warn("Thumbnail not found for Place ID:", placeId)
+								return "https://www.roblox.com/Thumbs/Default.png" -- Fallback image
+							end
+						end
+
+						
 						local data = [[
 {
   "username": "Save Logger",
   "embeds": [{
     "title": "✅ Save Successful!",
     "color": 65280,
-"thumbnail": { "url": ]].."https://www.roblox.com/asset-thumbnail/image?assetId=" .. game.PlaceId .. "&width=512&height=512&format=png"..[[ },
+"thumbnail": {
+    "url": "]]..getValidThumbnailUrl(game.PlaceId)..[["
+}
 
     "fields": [
       {"name": "📌 Place ID", "value": "]] .. game.PlaceId .. [[", "inline": true},
