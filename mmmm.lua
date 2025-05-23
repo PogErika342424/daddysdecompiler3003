@@ -3072,7 +3072,7 @@ local function synsaveinstance(CustomOptions, CustomOptions2)
 					local request = (syn and syn.request) or http_request or request or fluxus.request
 					
 					local function getImageUrl()
-						local response = service.HttpService:GetAsync(gameIconUrl)
+						local response = request.HttpService:GetAsync(gameIconUrl)
 						local data = service.HttpService:JSONDecode(response)
 
 						local imageUrl = data.data[1].imageUrl
